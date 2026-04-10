@@ -1,0 +1,105 @@
+# .github/workflows/deploy.yml
+name: 🚀 Deploy Portfolio to GitHub Pages
+
+on:
+  push:
+    branches: [main]  # Change to 'master' if that's your default branch
+  workflow_dispatch:  # Allow manual trigger from GitHub UI
+
+# Permissions for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Cancel in-progress runs if new push happens
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      # 1️⃣ Checkout your code
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Set up Python for huggingface_hub
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3️⃣ Install huggingface_hub CLI
+      - name: 📦 Install dependencies
+        run: pip install huggingface_hub
+
+      # 4️⃣ Download private assets from HF
+      - name: 🔐 Download private files from Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          echo "=== 📥 Downloading private assets ==="
+          mkdir -p assets
+          
+          # Download cv.pdf directly to assets/
+          hf download hrrouibah/Portfolio-Hidden-Files \
+            --repo-type model \
+            --include "cv.pdf" \
+            --local-dir assets \
+            --token "$HF_TOKEN"
+          
+          # Download any files in assets/ subfolder (if they exist)
+          hf download hrrouibah/Portfolio-Hidden-Files \
+            --repo-type model \
+            --include "assets/*" \
+            --local-dir . \
+            --token "$HF_TOKEN"
+          
+          # Handle nested assets folder if hf download created assets/assets/
+          if [ -d "assets/assets" ]; then
+            echo "📁 Flattening nested assets folder..."
+            cp -rf assets/assets/* assets/ 2>/dev/null || true
+            rm -rf assets/assets
+          fi
+          
+          echo "✅ Assets downloaded. Contents of assets/:"
+          ls -la assets/
+
+      # 5️⃣ Verify CV file exists (fail gracefully if not)
+      - name: ✅ Verify critical files
+        run: |
+          if [ -f "assets/cv.pdf" ]; then
+            echo "✅ cv.pdf found"
+          else
+            echo "⚠️ WARNING: cv.pdf not found in private repo!"
+            echo "Make sure 'cv.pdf' exists in hrrouibah/Portfolio-Hidden-Files root"
+          fi
+
+      # 6️⃣ Configure GitHub Pages
+      - name: 📁 Setup Pages
+        uses: actions/configure-pages@v4
+
+      # 7️⃣ Upload site as artifact
+      - name: 📦 Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'  # Upload entire repo root
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      # 8️⃣ Deploy to GitHub Pages
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
