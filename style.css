@@ -801,6 +801,7 @@ body.light-mode .modal-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+   
 }
 
 body.light-mode .modal-header {
@@ -810,6 +811,7 @@ body.light-mode .modal-header {
 .modal-title {
     font-size: 1.5rem;
     font-weight: 700;
+     margin-bottom: 0px;
 }
 
 .modal-close {
@@ -993,6 +995,7 @@ body.light-mode .qr-hint {
 
 .qr-image:hover {
     transform: scale(1.02);
+    cursor: pointer;
 }
 
 .qr-url {
@@ -1017,7 +1020,7 @@ body.light-mode .qr-url {
 /* ==================== FLOATING SHARE BUTTON ==================== */
 .share-btn {
     position: fixed;
-    bottom: 85px;
+    bottom: 25px;
     right: 25px;
     background: var(--primary);
     color: white;
@@ -1038,6 +1041,10 @@ body.light-mode .qr-url {
 .share-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+}
+
+.share-btn.shifted {
+    bottom: 85px;
 }
 
 .share-btn i {
@@ -1382,8 +1389,12 @@ body.light-mode .toast {
         width: 44px;
         height: 44px;
         font-size: 1.1rem;
-        bottom: 80px;
+        bottom: 20px;
         right: 20px;
+    }
+    
+    .share-btn.shifted {
+        bottom: 76px;
     }
     
     .back-to-top {

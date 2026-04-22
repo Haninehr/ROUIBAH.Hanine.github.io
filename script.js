@@ -236,11 +236,16 @@ function animateCounter(el, target) {
     }, 40);
 }
 
-// ==================== BACK TO TOP ====================
+// ==================== BACK TO TOP & SHARE BUTTON ====================
 const backToTop = document.getElementById('back-to-top');
+const shareBtn = document.getElementById('share-btn');
+
 window.addEventListener('scroll', () => {
-    backToTop.style.display = window.scrollY > 500 ? 'flex' : 'none';
+    const scrolled = window.scrollY > 500;
+    backToTop.style.display = scrolled ? 'flex' : 'none';
+    if (shareBtn) shareBtn.classList.toggle('shifted', scrolled);
 });
+
 backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 // ==================== THEME TOGGLE ====================
@@ -335,7 +340,6 @@ document.querySelectorAll('.project-card').forEach(card => {
 });
 
 // ==================== QR CODE SHARE MODAL ====================
-const shareBtn = document.getElementById('share-btn');
 const qrModal = document.getElementById('qr-modal');
 const qrModalClose = document.getElementById('qr-modal-close');
 const qrUrlText = document.getElementById('qr-url');
@@ -376,7 +380,6 @@ document.addEventListener('keydown', (e) => {
 if (downloadQrBtn) {
     downloadQrBtn.addEventListener('click', () => {
         const link = document.createElement('a');
-        // Update this path to match your actual QR code PNG filename
         link.href = './assets/qr-code.png';
         link.download = 'rouibah-hanine-portfolio-qr.png';
         link.click();
