@@ -406,7 +406,7 @@
         </div>
     </section>
 
-    <!-- Project Modal (unchanged, but will now support the new project) -->
+    <!-- Project Modal -->
     <div id="project-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -426,6 +426,25 @@
                         <i class="fab fa-github"></i> View on GitHub
                     </a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Share Modal -->
+    <div id="qr-modal" class="modal">
+        <div class="modal-content qr-modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-qrcode"></i> Share Portfolio</h2>
+                <span class="modal-close" id="qr-modal-close">&times;</span>
+            </div>
+            <div class="modal-body qr-modal-body">
+                <p class="qr-hint">Scan this QR code to open this portfolio on your device</p>
+                <!-- Update the src below to match your QR code PNG filename -->
+                <img src="./assets/qr-code.png" alt="Portfolio QR Code" class="qr-image" id="qr-image">
+                <p class="qr-url" id="qr-url"></p>
+                <button class="btn btn-primary" id="download-qr">
+                    <i class="fas fa-download"></i> Download QR Code
+                </button>
             </div>
         </div>
     </div>
@@ -463,6 +482,11 @@
             <p class="last-updated">Last Updated: <span id="last-updated-date"></span></p>
         </div>
     </footer>
+
+    <!-- Floating Share Button -->
+    <button class="share-btn" id="share-btn" aria-label="Share portfolio">
+        <i class="fas fa-share-alt"></i>
+    </button>
 
     <button class="back-to-top" id="back-to-top" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>

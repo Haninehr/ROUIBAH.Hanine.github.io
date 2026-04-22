@@ -44,13 +44,11 @@ body.light-mode {
     position: fixed;
     top: 0;
     width: 100%;
-    /* background: rgba(15, 23, 42, 0.85); */
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     z-index: 1000;
     padding: 0.85rem 0;
     transition: all 0.4s;
-    /* border-bottom: 1px solid rgba(255, 255, 255, 0.05); */
 }
 
 .navbar.scrolled {
@@ -320,6 +318,7 @@ body.light-mode .title {
     gap: 8px;
     font-size: 0.95rem;
     cursor: pointer;
+    border: none;
 }
 
 .btn-primary {
@@ -601,7 +600,6 @@ body.light-mode .skill-card:hover {
     justify-content: center;
     width: 52px;
     height: 52px;
-    /* Ensures SVG/Font icons scale uniformly */
     object-fit: contain;
 }
 
@@ -612,7 +610,6 @@ body.light-mode .skill-card:hover {
 }
 
 
-/* Light mode optimization: reduces harsh contrast on colored logos */
 body.light-mode .skill-icon {
     filter: brightness(0.9) saturate(0.95);
 }
@@ -624,7 +621,6 @@ body.light-mode .skill-icon {
 }
 
 
-/* Keeps conceptual FA icons aligned with Devicon sizing */
 body.light-mode .skill-card span {
     color: var(--text-light);
 }
@@ -962,6 +958,96 @@ body.light-mode .modal-tech span {
     }
 }
 
+/* ==================== QR CODE MODAL ==================== */
+.qr-modal-content {
+    max-width: 420px;
+}
+
+.qr-modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.2rem;
+    padding: 2rem;
+}
+
+.qr-hint {
+    color: var(--gray);
+    font-size: 1rem;
+    margin: 0;
+}
+
+body.light-mode .qr-hint {
+    color: var(--gray-light);
+}
+
+.qr-image {
+    max-width: 260px;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.qr-image:hover {
+    transform: scale(1.02);
+}
+
+.qr-url {
+    font-size: 0.8rem;
+    color: var(--gray);
+    word-break: break-all;
+    max-width: 100%;
+    font-family: 'Courier New', monospace;
+    background: rgba(59, 130, 246, 0.06);
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(59, 130, 246, 0.12);
+    margin: 0;
+}
+
+body.light-mode .qr-url {
+    background: rgba(59, 130, 246, 0.04);
+    color: var(--gray-light);
+    border-color: rgba(59, 130, 246, 0.1);
+}
+
+/* ==================== FLOATING SHARE BUTTON ==================== */
+.share-btn {
+    position: fixed;
+    bottom: 85px;
+    right: 25px;
+    background: var(--primary);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(59, 130, 246, 0.35);
+    z-index: 998;
+    transition: all 0.3s;
+    border: none;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+}
+
+.share-btn i {
+    transition: transform 0.3s ease;
+}
+
+.share-btn:hover i {
+    transform: rotate(15deg) scale(1.1);
+}
+
 /* ==================== CONTACT ==================== */
 .contact-info {
     text-align: center;
@@ -1291,6 +1377,22 @@ body.light-mode .toast {
     .profile-pic-wrapper{
         margin-bottom: 0.85rem;
     }
+    
+    .share-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+        bottom: 80px;
+        right: 20px;
+    }
+    
+    .back-to-top {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+        bottom: 20px;
+        right: 20px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1344,7 +1446,7 @@ body.light-mode .signature-black { display: block; }
         .signature {
         width: 100px;
         left: calc(50% - 50px);
-        top: 5px;
+        top: 10px;
         z-index: 100000;
         position: fixed;
     }

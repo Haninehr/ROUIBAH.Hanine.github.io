@@ -334,6 +334,56 @@ document.querySelectorAll('.project-card').forEach(card => {
     });
 });
 
+// ==================== QR CODE SHARE MODAL ====================
+const shareBtn = document.getElementById('share-btn');
+const qrModal = document.getElementById('qr-modal');
+const qrModalClose = document.getElementById('qr-modal-close');
+const qrUrlText = document.getElementById('qr-url');
+const downloadQrBtn = document.getElementById('download-qr');
+const qrImage = document.getElementById('qr-image');
+
+function openQrModal() {
+    qrUrlText.textContent = window.location.href;
+    qrModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeQrModal() {
+    qrModal.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+if (shareBtn) {
+    shareBtn.addEventListener('click', openQrModal);
+}
+
+if (qrModalClose) {
+    qrModalClose.addEventListener('click', closeQrModal);
+}
+
+if (qrModal) {
+    qrModal.addEventListener('click', (e) => {
+        if (e.target === qrModal) closeQrModal();
+    });
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && qrModal && qrModal.style.display === 'flex') {
+        closeQrModal();
+    }
+});
+
+if (downloadQrBtn) {
+    downloadQrBtn.addEventListener('click', () => {
+        const link = document.createElement('a');
+        // Update this path to match your actual QR code PNG filename
+        link.href = './assets/qr-code.png';
+        link.download = 'rouibah-hanine-portfolio-qr.png';
+        link.click();
+        showToast('✅ QR code downloaded!', 'success');
+    });
+}
+
 // ==================== PROTECTION ====================
 document.addEventListener('contextmenu', (event) => event.preventDefault());
 document.addEventListener('keydown', (event) => {
@@ -347,12 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateEl = document.getElementById('last-updated-date');
     if (!dateEl) return;
 
-    // Option 1: Auto-pull from browser/page metadata (recommended)
     const lastMod = new Date(document.lastModified);
     
-    // Option 2: Hardcode if auto-detection is inaccurate on your host
-    // const lastMod = new Date('2026-04-01T00:00:00');
-
     dateEl.textContent = lastMod.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
